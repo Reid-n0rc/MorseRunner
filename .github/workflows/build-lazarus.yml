@@ -1,0 +1,58 @@
+name: Cross-Platform Build (Lazarus/FPC)
+
+# Toolchain-as-CI for the native macOS / cross-platform port.
+# Installs Lazarus + FPC + SDL on each OS, proves the toolchain works, and
+# builds the Lazarus project once MorseRunner.lpi exists (added during the port).
+
+on:
+  push:
+    branches: [main, 'feature/cross-platform-macos']
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Install SDL (audio backend)
+        shell: bash
+        run: |
+          if [ "${{ runner.os }}" = "macOS" ]; then
+            brew install sdl12-compat sdl2
+          else
+            sudo apt-get update
+            sudo apt-get install -y libsdl1.2-compat-dev libsdl2-dev
+          fi
+
+      - name: Set up Lazarus + FPC
+        uses: gcarreno/setup-lazarus@v3.4.1
+        with:
+          lazarus-version: stable
+          with-cache: true
+
+      - name: Show toolchain versions
+        shell: bash
+        run: |
+          echo "FPC:"; fpc -iV || true
+          echo "lazbuild:"; lazbuild --version || true
+
+      - name: Build MorseRunner (Lazarus project)
+        shell: bash
+        run: |
+          if [ -f MorseRunner.lpi ]; then
+            lazbuild --build-mode=Release MorseRunner.lpi
+          else
+            echo "::notice::MorseRunner.lpi not present yet — port in progress."
+            echo "Toolchain verified; skipping app build until the Lazarus project is added."
+          fi

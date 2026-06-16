@@ -108,3 +108,6 @@ MorseRunner.stat
 
 # Ignore my project's .ini file. This user file is regenerated at runtime.
 MorseRunner.ini
+
+# Claude Code agent session state (regenerated each task)
+.claudestate.md
