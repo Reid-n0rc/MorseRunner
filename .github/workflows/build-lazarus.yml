@@ -39,7 +39,9 @@ jobs:
         uses: gcarreno/setup-lazarus@v3.4.1
         with:
           lazarus-version: stable
-          with-cache: true
+          # Caching disabled: setup-lazarus assumes a cached installer exists
+          # when the GH cache service returns 400, then fails to mount/install it.
+          with-cache: false
 
       - name: Show toolchain versions
         shell: bash
