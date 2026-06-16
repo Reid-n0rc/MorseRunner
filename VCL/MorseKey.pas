@@ -5,6 +5,8 @@
 //------------------------------------------------------------------------------
 unit MorseKey;
 
+{$IFDEF FPC}{$MODE Delphi}{$ENDIF}
+
 interface
 
 uses

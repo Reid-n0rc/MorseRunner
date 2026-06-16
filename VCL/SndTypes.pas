@@ -1,9 +1,12 @@
 unit SndTypes;
 
+{$IFDEF FPC}{$MODE Delphi}{$ENDIF}
+
 interface
 
 uses
-  Windows, SysUtils, MMSystem, Math, ComObj;
+  {$IFDEF MSWINDOWS}Windows, MMSystem,{$ENDIF}
+  SysUtils, Math;
 
 const
   FOUR_PI = 4 * Pi;
@@ -48,7 +51,9 @@ type
 
   PWaveBuffer = ^TWaveBuffer;
   TWaveBuffer = record
+    {$IFDEF MSWINDOWS}
     Hdr: TWaveHdr;
+    {$ENDIF}
     Data: TSmallIntArray;
     end;
 

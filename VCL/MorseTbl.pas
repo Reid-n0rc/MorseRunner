@@ -6,6 +6,8 @@
 unit
   MorseTbl;
 
+{$IFDEF FPC}{$MODE Delphi}{$ENDIF}
+
 interface
 
 const
