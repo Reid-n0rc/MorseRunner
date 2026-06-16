@@ -49,6 +49,10 @@ jobs:
           echo "FPC:"; fpc -iV || true
           echo "lazbuild:"; lazbuild --version || true
 
+      - name: Verify ported units compile under FPC
+        shell: bash
+        run: ./tools/fpc-portable-check.sh
+
       - name: Build MorseRunner (Lazarus project)
         shell: bash
         run: |

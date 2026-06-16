@@ -5,9 +5,11 @@
 //------------------------------------------------------------------------------
 unit Crc32;
 
+{$IFDEF FPC}{$MODE Delphi}{$ENDIF}
+
 interface
 
-uses SysUtils, Windows;
+uses SysUtils{$IFDEF MSWINDOWS}, Windows{$ENDIF};
 
 function CalculateCRC32(AStr: string; ACrc: DWord): DWord;
 

@@ -1,5 +1,7 @@
 unit ArrlSections;
 
+{$IFDEF FPC}{$MODE Delphi}{$ENDIF}
+
 interface
 
 uses
